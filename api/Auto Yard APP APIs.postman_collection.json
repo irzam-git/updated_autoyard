@@ -1,0 +1,1776 @@
+{
+  "info": {
+    "_postman_id": "194b5d54-222c-4aab-b4ff-6905247315b6",
+    "name": "Auto Yard APP APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "22583202",
+    "_collection_link": "https://go.postman.co/collection/10847228-194b5d54-222c-4aab-b4ff-6905247315b6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Driver Portal APIs",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();\r",
+                      "\r",
+                      "if(jsonData.data.user.user_type == 'driver') {\r",
+                      "    pm.environment.set(\"DriverUserData\", JSON.stringify(jsonData.data.user));\r",
+                      "    pm.environment.set(\"Driver_Auth_Token\", jsonData.data.authorisation.token);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "email",
+                      "value": "ahmed@pixelz360.com.au",
+                      "description": "User email. Example: driver@mail.com",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "description": "User password. Example: password",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/auth/authenticate",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "authenticate"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Signup",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();\r",
+                      "\r",
+                      "if(jsonData.data.user.user_type == 'driver') {\r",
+                      "    pm.environment.set(\"DriverUserData\", JSON.stringify(jsonData.data.user));\r",
+                      "    pm.environment.set(\"Driver_Auth_Token\", jsonData.data.authorisation.token);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "first_name",
+                      "value": "John",
+                      "type": "text",
+                      "description": "User first name. Example: John"
+                    },
+                    {
+                      "key": "last_name",
+                      "value": "Doe",
+                      "type": "text",
+                      "description": "User last name."
+                    },
+                    {
+                      "key": "phone_number",
+                      "value": "1234567890",
+                      "type": "text",
+                      "description": "User phone number. Example: +1-202-555-0150"
+                    },
+                    {
+                      "key": "email",
+                      "value": "driver@mail.com",
+                      "type": "text",
+                      "description": "User email. Example: driver@mail.com"
+                    },
+                    {
+                      "key": "password",
+                      "value": "password",
+                      "type": "text",
+                      "description": "Password for the user account. Example: password"
+                    },
+                    {
+                      "key": "password_confirmation",
+                      "value": "password",
+                      "type": "text",
+                      "description": "Confirmation of the password. Should match the password. Example: password"
+                    },
+                    {
+                      "key": "send_details_to",
+                      "value": "email",
+                      "description": "Preferred method for receiving details. Possible values: sms, email. Example: email",
+                      "type": "text"
+                    },
+                    {
+                      "key": "activation_key",
+                      "value": "20240822124803WICNKF",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/auth/signup_driver",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "signup_driver"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Forgot Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "email",
+                      "value": "driver@mail.com",
+                      "type": "text",
+                      "description": "User email. Example: driver@mail.com"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/auth/forgot-password",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "forgot-password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Logout",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();\r",
+                      "pm.environment.set(\"DriverUserData\", '');\r",
+                      "pm.environment.set(\"Driver_Auth_Token\", '');"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/auth/logout",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Current User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();\r",
+                      "\r",
+                      "if(jsonData.data.user.user_type == 'driver') {\r",
+                      "    pm.environment.set(\"DriverUserData\", JSON.stringify(jsonData.data.user));\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/auth/get-user",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "get-user"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Account Setting",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "var jsonData = pm.response.json();\r",
+                      "\r",
+                      "if(jsonData.data.user.user_type == 'driver') {\r",
+                      "    pm.environment.set(\"DriverUserData\", JSON.stringify(jsonData.data.user));\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "first_name",
+                      "value": "John",
+                      "type": "text",
+                      "description": "User's first name. Example: John"
+                    },
+                    {
+                      "key": "last_name",
+                      "value": "Doe",
+                      "type": "text",
+                      "description": "User's last name. Example: Doe"
+                    },
+                    {
+                      "key": "phone_number",
+                      "value": "+1-202-555-0150",
+                      "type": "text",
+                      "description": "User's phone number. Example: +1-202-555-0150"
+                    },
+                    {
+                      "key": "profile_image",
+                      "type": "file",
+                      "description": "URL or path to the user's profile image.",
+                      "value": null
+                    },
+                    {
+                      "key": "send_details_to",
+                      "value": "email",
+                      "description": "Preferred method for receiving details. Possible values: sms, email. Example: email",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/auth/account-settings",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "account-settings"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Change Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "current_password",
+                      "value": "password",
+                      "type": "text",
+                      "description": "The user's current password. Example: password"
+                    },
+                    {
+                      "key": "new_password",
+                      "value": "password123",
+                      "type": "text",
+                      "description": "The new password the user wants to set. Example: password123"
+                    },
+                    {
+                      "key": "confirm_password",
+                      "value": "password123",
+                      "type": "text",
+                      "description": "Confirmation of the new password. It should match the new_password. Example: password123"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/auth/change-password",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "change-password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Send Email Verification Link",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/auth/resend-verification-email",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "resend-verification-email"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Assigned Car Pickup",
+          "item": [
+            {
+              "name": "All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/assign_vehicle?orderby=id&order=DESC&perpage=10&page=1&date=2024-08-23",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "assign_vehicle"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderby",
+                      "value": "id",
+                      "description": "Field to order the results by. Example: id. Default is id."
+                    },
+                    {
+                      "key": "order",
+                      "value": "DESC",
+                      "description": "Order direction. Possible values: ASC, DESC. Default is DESC."
+                    },
+                    {
+                      "key": "perpage",
+                      "value": "10",
+                      "description": "Number of results per page. Used for pagination. Example: 10."
+                    },
+                    {
+                      "key": "limit",
+                      "value": "",
+                      "description": "Limit the number of records returned.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "ABCD",
+                      "description": "Search by customer name or phone number. Example: ABCD.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "pending",
+                      "description": "Filter by status. Possible values: pending, completed or cancelled. Example: pending.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-05-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-06-31",
+                      "disabled": true
+                    },
+                    {
+                      "key": "driver",
+                      "value": "1",
+                      "description": "Search by driver id. Example: 1.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "brand",
+                      "value": "1",
+                      "description": "Search by brand id. Example: 1.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "model",
+                      "value": "1",
+                      "description": "Search by model id. Example: 1.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "year",
+                      "value": "1999",
+                      "description": "Search by year. Example: 1999.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2024-08-23",
+                      "description": "Search by date"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Single",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/assign_vehicle/1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "assign_vehicle",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Status Update",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "status",
+                      "value": "completed",
+                      "type": "text",
+                      "description": "New status of the assign vehicle. Possible values: pending, completed or cancelled. Example: completed."
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/assign_vehicle/status/1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "assign_vehicle",
+                    "status",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Car Inventory",
+          "item": [
+            {
+              "name": "All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle?orderby=id&order=DESC&perpage=10&page=1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderby",
+                      "value": "id",
+                      "description": "Field to order the results by. Example: id. Default is id."
+                    },
+                    {
+                      "key": "order",
+                      "value": "DESC",
+                      "description": "Order direction. Possible values: ASC, DESC. Default is DESC."
+                    },
+                    {
+                      "key": "perpage",
+                      "value": "10",
+                      "description": "Number of results per page. Used for pagination. Example: 10."
+                    },
+                    {
+                      "key": "limit",
+                      "value": "",
+                      "description": "Limit the number of records returned.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "ABCD",
+                      "description": "Search by vehicle registration number, engine size, engine number, vin number, first name, last name, abn number, business name, phone number or license number. Example: ABCD.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "in-stock",
+                      "description": "Filter by status. Possible values: in-stock, car-for-sell, sold or disposed. Example: in-stock.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-05-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-06-31",
+                      "disabled": true
+                    },
+                    {
+                      "key": "driver",
+                      "value": "1",
+                      "description": "Search by driver id. Example: 1.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "approved",
+                      "value": "",
+                      "description": "Get approved vehicle",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "unapproved",
+                      "value": "",
+                      "description": "Get unapproved vehicle",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2024-08-20",
+                      "description": "Search by date",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Single",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Vehicle Details By Rego Number & State Copy",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/vehicle-details?registration_state=VIC&registration_number=TEST00",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "vehicle-details"
+                  ],
+                  "query": [
+                    {
+                      "key": "registration_state",
+                      "value": "VIC"
+                    },
+                    {
+                      "key": "registration_number",
+                      "value": "TEST00"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "step",
+                      "value": "3",
+                      "type": "text",
+                      "description": "Step in the creation process.\t"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "1",
+                      "type": "text",
+                      "description": "Brand ID."
+                    },
+                    {
+                      "key": "model",
+                      "value": "1",
+                      "type": "text",
+                      "description": "Model ID.\t"
+                    },
+                    {
+                      "key": "year",
+                      "value": "1999",
+                      "type": "text",
+                      "description": "Vehicle year."
+                    },
+                    {
+                      "key": "registration_number",
+                      "value": "1CMR524",
+                      "type": "text",
+                      "description": "Vehicle registration number.\t"
+                    },
+                    {
+                      "key": "registration_date",
+                      "value": "2024-05-22",
+                      "type": "text",
+                      "description": "Vehicle registration date in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "registration_state",
+                      "value": "NSW",
+                      "type": "text",
+                      "description": "State where the vehicle is registered.\t"
+                    },
+                    {
+                      "key": "engine_size",
+                      "value": "1.6L",
+                      "type": "text",
+                      "description": "Engine size.\t"
+                    },
+                    {
+                      "key": "engine_number",
+                      "value": "1598CC",
+                      "type": "text",
+                      "description": "Engine number.\t"
+                    },
+                    {
+                      "key": "vin_number",
+                      "value": "23213232132132213",
+                      "type": "text",
+                      "description": "Vehicle Identification Number (VIN).\t"
+                    },
+                    {
+                      "key": "transmission",
+                      "value": "Auto",
+                      "type": "text",
+                      "description": "Type of transmission.\t"
+                    },
+                    {
+                      "key": "body_type",
+                      "value": "2D HATCHBACK",
+                      "type": "text",
+                      "description": "Type of vehicle body.\t"
+                    },
+                    {
+                      "key": "variant",
+                      "value": "Consequatur Animi",
+                      "type": "text",
+                      "description": "Variant of the vehicle.\t"
+                    },
+                    {
+                      "key": "built",
+                      "value": "11/2024",
+                      "type": "text",
+                      "description": "Build date in MM/YYYY format.\t"
+                    },
+                    {
+                      "key": "odometer",
+                      "value": "Error quam id vero",
+                      "type": "text",
+                      "description": "Odometer reading or description.\t"
+                    },
+                    {
+                      "key": "first_name",
+                      "value": "Robert",
+                      "type": "text",
+                      "description": "Owner's first name.\t"
+                    },
+                    {
+                      "key": "last_name",
+                      "value": "Mccoy",
+                      "description": "Owner's last name.\t",
+                      "type": "text"
+                    },
+                    {
+                      "key": "abn_number",
+                      "value": "12345678912345678",
+                      "type": "text",
+                      "description": "Australian Business Number (ABN).\t"
+                    },
+                    {
+                      "key": "business_name",
+                      "value": "Lorem Ipsum Company",
+                      "type": "text",
+                      "description": "Business name associated with the vehicle.\t"
+                    },
+                    {
+                      "key": "phone_number",
+                      "value": "+1-202-555-0150",
+                      "type": "text",
+                      "description": "Owner's phone number.\t"
+                    },
+                    {
+                      "key": "license_number",
+                      "value": "A1234567",
+                      "type": "text",
+                      "description": "Owner's license number.\t"
+                    },
+                    {
+                      "key": "pickup_date",
+                      "value": "2024-06-01",
+                      "type": "text",
+                      "description": "Date when the vehicle will be picked up in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "date_of_birth",
+                      "value": "1980-01-01",
+                      "type": "text",
+                      "description": "Owner's date of birth in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "pickup_address",
+                      "value": "123 Main St, Springfield",
+                      "type": "text",
+                      "description": "Address where the vehicle will be picked up.\t"
+                    },
+                    {
+                      "key": "residential_address",
+                      "value": "456 Elm St, Springfield",
+                      "type": "text",
+                      "description": "Owner's residential address.\t"
+                    },
+                    {
+                      "key": "same_pickup_address",
+                      "value": "0",
+                      "type": "text",
+                      "description": "Indicates if the pickup address is the same as the residential address (1 for yes, 0 for no).\t"
+                    },
+                    {
+                      "key": "vehicle_condition",
+                      "value": "{\"drivable\": \"no\", \"accidental\": \"no\", \"wovi\": \"no\", \"under_finance\": \"no\"}",
+                      "description": "Condition of the vehicle. Value type JSON \nPossible values:\ndrivable - yes or no\naccidental - yes or no\nwovi - yes or no\nunder_finance - yes or no",
+                      "type": "text"
+                    },
+                    {
+                      "key": "note",
+                      "value": "Lorem ipsum dolor sit amet",
+                      "type": "text",
+                      "description": "Additional notes regarding the vehicle.\t"
+                    },
+                    {
+                      "key": "price",
+                      "value": "15000",
+                      "type": "text",
+                      "description": "Price of the vehicle.\t"
+                    },
+                    {
+                      "key": "payment_method",
+                      "value": "Bank Transfer",
+                      "type": "text",
+                      "description": "Payment method. Possible values: Cash, Bank Transfer.\t"
+                    },
+                    {
+                      "key": "owner_signature",
+                      "type": "file",
+                      "description": "Image file of the owner's signature. Accepts jpg, jpeg, png formats, max size 10MB.\t",
+                      "fileNotInWorkingDirectoryWarning": "This file isn't in your working directory. Teammates you share this request with won't be able to use this file. To make collaboration easier you can setup your working directory in Settings.",
+                      "filesNotInWorkingDirectory": [
+                        "/D:/server/www/autoyard/storage/app/public/vehicle/172543233366d8020d549b4.png"
+                      ],
+                      "src": "/D:/server/www/autoyard/storage/app/public/vehicle/172543233366d8020d549b4.png"
+                    },
+                    {
+                      "key": "buyer_signature",
+                      "type": "file",
+                      "description": "Image file of the buyer's signature. Accepts jpg, jpeg, png formats, max size 10MB.\t",
+                      "fileNotInWorkingDirectoryWarning": "This file isn't in your working directory. Teammates you share this request with won't be able to use this file. To make collaboration easier you can setup your working directory in Settings.",
+                      "filesNotInWorkingDirectory": [
+                        "/D:/server/www/autoyard/storage/app/public/vehicle/172543233366d8020da658c.png"
+                      ],
+                      "src": "/D:/server/www/autoyard/storage/app/public/vehicle/172543233366d8020da658c.png"
+                    },
+                    {
+                      "key": "terms",
+                      "value": "true",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/vehicle/create",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "create"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "step",
+                      "value": "3",
+                      "type": "text",
+                      "description": "Step in the creation process.\t"
+                    },
+                    {
+                      "key": "brand",
+                      "value": "1",
+                      "type": "text",
+                      "description": "Brand ID."
+                    },
+                    {
+                      "key": "model",
+                      "value": "1",
+                      "type": "text",
+                      "description": "Model ID.\t"
+                    },
+                    {
+                      "key": "year",
+                      "value": "1999",
+                      "type": "text",
+                      "description": "Vehicle year."
+                    },
+                    {
+                      "key": "registration_number",
+                      "value": "1CMR524",
+                      "type": "text",
+                      "description": "Vehicle registration number.\t"
+                    },
+                    {
+                      "key": "registration_date",
+                      "value": "2024-05-22",
+                      "type": "text",
+                      "description": "Vehicle registration date in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "registration_state",
+                      "value": "NSW",
+                      "type": "text",
+                      "description": "State where the vehicle is registered.\t"
+                    },
+                    {
+                      "key": "engine_size",
+                      "value": "1.6L",
+                      "type": "text",
+                      "description": "Engine size.\t"
+                    },
+                    {
+                      "key": "engine_number",
+                      "value": "1598CC",
+                      "type": "text",
+                      "description": "Engine number.\t"
+                    },
+                    {
+                      "key": "vin_number",
+                      "value": "23213232132132213",
+                      "type": "text",
+                      "description": "Vehicle Identification Number (VIN).\t"
+                    },
+                    {
+                      "key": "transmission",
+                      "value": "Auto",
+                      "type": "text",
+                      "description": "Type of transmission.\t"
+                    },
+                    {
+                      "key": "body_type",
+                      "value": "2D HATCHBACK",
+                      "type": "text",
+                      "description": "Type of vehicle body.\t"
+                    },
+                    {
+                      "key": "variant",
+                      "value": "Consequatur Animi",
+                      "type": "text",
+                      "description": "Variant of the vehicle.\t"
+                    },
+                    {
+                      "key": "built",
+                      "value": "11/2024",
+                      "type": "text",
+                      "description": "Build date in MM/YYYY format.\t"
+                    },
+                    {
+                      "key": "odometer",
+                      "value": "Error quam id vero",
+                      "type": "text",
+                      "description": "Odometer reading or description.\t"
+                    },
+                    {
+                      "key": "first_name",
+                      "value": "Robert",
+                      "type": "text",
+                      "description": "Owner's first name.\t"
+                    },
+                    {
+                      "key": "last_name",
+                      "value": "Mccoy",
+                      "type": "text",
+                      "description": "Owner's last name.\t"
+                    },
+                    {
+                      "key": "abn_number",
+                      "value": "12345678912345678",
+                      "type": "text",
+                      "description": "Australian Business Number (ABN).\t"
+                    },
+                    {
+                      "key": "business_name",
+                      "value": "Lorem Ipsum Company",
+                      "type": "text",
+                      "description": "Business name associated with the vehicle.\t"
+                    },
+                    {
+                      "key": "phone_number",
+                      "value": "+1-202-555-0150",
+                      "type": "text",
+                      "description": "Owner's phone number.\t"
+                    },
+                    {
+                      "key": "license_number",
+                      "value": "A1234567",
+                      "type": "text",
+                      "description": "Owner's license number.\t"
+                    },
+                    {
+                      "key": "pickup_date",
+                      "value": "2024-06-01",
+                      "type": "text",
+                      "description": "Date when the vehicle will be picked up in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "date_of_birth",
+                      "value": "1980-01-01",
+                      "type": "text",
+                      "description": "Owner's date of birth in YYYY-MM-DD format.\t"
+                    },
+                    {
+                      "key": "pickup_address",
+                      "value": "123 Main St, Springfield",
+                      "type": "text",
+                      "description": "Address where the vehicle will be picked up.\t"
+                    },
+                    {
+                      "key": "residential_address",
+                      "value": "456 Elm St, Springfield",
+                      "type": "text",
+                      "description": "Owner's residential address.\t"
+                    },
+                    {
+                      "key": "same_pickup_address",
+                      "value": "0",
+                      "type": "text",
+                      "description": "Indicates if the pickup address is the same as the residential address (1 for yes, 0 for no).\t"
+                    },
+                    {
+                      "key": "vehicle_condition",
+                      "value": "{\"drivable\": \"yes\", \"accidental\": \"no\", \"wovi\": \"no\", \"under_finance\": \"no\"}",
+                      "description": "Condition of the vehicle. Value type JSON \nPossible values:\ndrivable - yes or no\naccidental - yes or no\nwovi - yes or no\nunder_finance - yes or no",
+                      "type": "text"
+                    },
+                    {
+                      "key": "note",
+                      "value": "Lorem ipsum dolor sit amet",
+                      "type": "text",
+                      "description": "Additional notes regarding the vehicle.\t"
+                    },
+                    {
+                      "key": "price",
+                      "value": "15000",
+                      "type": "text",
+                      "description": "Price of the vehicle.\t"
+                    },
+                    {
+                      "key": "payment_method",
+                      "value": "Bank Transfer",
+                      "type": "text",
+                      "description": "Payment method. Possible values: Cash, Bank Transfer.\t"
+                    },
+                    {
+                      "key": "owner_signature",
+                      "type": "file",
+                      "description": "Image file of the owner's signature. Accepts jpg, jpeg, png formats, max size 10MB.\t",
+                      "value": null
+                    },
+                    {
+                      "key": "buyer_signature",
+                      "type": "file",
+                      "description": "Image file of the buyer's signature. Accepts jpg, jpeg, png formats, max size 10MB.\t",
+                      "value": null
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/vehicle/update/1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "update",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/delete/1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "delete",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Bulk Delete",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "ids[]",
+                      "value": "1",
+                      "type": "text",
+                      "description": "Array of vehicle IDs to update. Example: [1, 2, 3]"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/vehicle/bulk_delete",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "bulk_delete"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Purchase Receipt PDF",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/purchase_receipt/26",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "purchase_receipt",
+                    "26"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Send Purchase Receipt",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/send_purchase_receipt/15?email=example@mail.com",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "send_purchase_receipt",
+                    "15"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "example@mail.com"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search Vehicle Details By Rego Number & State",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/search-vehicle-details?registration_state=QLD&registration_number=4H5AN",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "search-vehicle-details"
+                  ],
+                  "query": [
+                    {
+                      "key": "registration_state",
+                      "value": "QLD"
+                    },
+                    {
+                      "key": "registration_number",
+                      "value": "4H5AN"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Vehicle Details By Rego Number & State",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/vehicle-details?registration_state=QLD&registration_number=4H5AN",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "vehicle-details"
+                  ],
+                  "query": [
+                    {
+                      "key": "registration_state",
+                      "value": "QLD"
+                    },
+                    {
+                      "key": "registration_number",
+                      "value": "4H5AN"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Vehicle Details By Vin No.",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/vehicle/vin-decoder?vin_number=LRW3F7FS0PC781475",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "vehicle",
+                    "vin-decoder"
+                  ],
+                  "query": [
+                    {
+                      "key": "vin_number",
+                      "value": "LRW3F7FS0PC781475"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Notifications",
+          "item": [
+            {
+              "name": "All Notifications",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/notification?orderby=created_at&order=DESC&perpage=10&page=1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "notification"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderby",
+                      "value": "created_at",
+                      "description": "Field to order the results by. Example: id. Default is id."
+                    },
+                    {
+                      "key": "order",
+                      "value": "DESC",
+                      "description": "Order direction. Possible values: ASC, DESC. Default is DESC."
+                    },
+                    {
+                      "key": "perpage",
+                      "value": "10",
+                      "description": "Number of results per page. Used for pagination. Example: 10."
+                    },
+                    {
+                      "key": "limit",
+                      "value": "",
+                      "description": "Limit the number of records returned.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-05-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-06-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Mark As Read",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/notification/mark_read/7bb240e4-89fb-43fa-b199-60b72071cdd7",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "notification",
+                    "mark_read",
+                    "7bb240e4-89fb-43fa-b199-60b72071cdd7"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Bulk Mark as Read",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "ids[]",
+                      "value": "7bb240e4-89fb-43fa-b199-60b72071cdd7",
+                      "type": "text",
+                      "description": "Array of Notification IDs to mark read."
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{URL}}/notification/bulk_mark_read",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "notification",
+                    "bulk_mark_read"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Brand",
+          "item": [
+            {
+              "name": "All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/brand?status=active",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "brand"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderby",
+                      "value": "id",
+                      "description": "Field to order the results by. Example: id. Default is id.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "order",
+                      "value": "DESC",
+                      "description": "Order direction. Possible values: ASC, DESC. Default is DESC.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "perpage",
+                      "value": "10",
+                      "description": "Number of results per page. Used for pagination. Example: 10.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "",
+                      "description": "Limit the number of records returned.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "Acura",
+                      "description": "Search brand by name. Example: Acura.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "active",
+                      "description": "Filter by brand status. Possible values: active, deactive. Example: active."
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-05-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-06-31",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "date",
+                      "value": "2024-08-20",
+                      "description": "Search by date",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "item": [
+            {
+              "name": "All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{Driver_Auth_Token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/model?status=active&brand=1",
+                  "host": [
+                    "{{URL}}"
+                  ],
+                  "path": [
+                    "model"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderby",
+                      "value": "id",
+                      "description": "Field to order the results by. Example: id. Default is id.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "order",
+                      "value": "DESC",
+                      "description": "Order direction. Possible values: ASC, DESC. Default is DESC.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "perpage",
+                      "value": "10",
+                      "description": "Number of results per page. Used for pagination. Example: 10.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "",
+                      "description": "Limit the number of records returned.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "RDX 4WD",
+                      "description": "Search model by name. Example: RDX 4WD.",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "active",
+                      "description": "Filter by model status. Possible values: active, deactive. Example: active."
+                    },
+                    {
+                      "key": "brand",
+                      "value": "1",
+                      "description": "Search by brand id. Example: 1"
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-05-31",
+                      "description": "Search by date range. Example: [\"2024-05-31\", \"2024-06-31\"].",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "dates[]",
+                      "value": "2024-06-31",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "date",
+                      "value": "2024-08-20",
+                      "description": "Seach by date",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
