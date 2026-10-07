@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/notifications/domain/models/notification_model.dart';
+import 'package:autoyard/features/notifications/domain/models/notification_model.dart';
 
 void main() {
   group('NotificationModel Serialization & Link Extraction', () {

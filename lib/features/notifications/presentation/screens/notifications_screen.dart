@@ -282,7 +282,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           color: isSelected
               ? null
               : (isDark ? AppColors.surfaceDark : AppColors.surfaceLight),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent

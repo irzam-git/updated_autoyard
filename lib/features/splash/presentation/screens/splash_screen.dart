@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
-import '../../../../core/design/app_colors.dart';
-import '../../../../core/design/app_shadows.dart';
-import '../../../../core/design/app_spacing.dart';
 import '../../../../core/design/app_typography.dart';
-import '../../../../core/utils/extensions.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -18,7 +17,6 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animController;
-  late final Animation<double> _scaleAnim;
   late final Animation<double> _fadeAnim;
 
   @override
@@ -26,11 +24,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
-    );
-
-    _scaleAnim = Tween<double>(begin: 0.82, end: 1.0).animate(
-      CurvedAnimation(parent: _animController, curve: Curves.easeOutBack),
+      duration: const Duration(milliseconds: 700),
     );
 
     _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -39,9 +33,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     _animController.forward();
 
-    Future.microtask(() {
-      ref.read(authControllerProvider.notifier).checkAuthStatus();
-    });
+    _startWelcomeFlow();
+  }
+
+  Future<void> _startWelcomeFlow() async {
+    // Show the Welcome Screen for 2.2 seconds so user sees it clearly
+    await Future.delayed(const Duration(milliseconds: 2200));
+    if (!mounted) return;
+
+    await ref.read(authControllerProvider.notifier).checkAuthStatus();
+    if (!mounted) return;
+
+    final authState = ref.read(authControllerProvider);
+    if (authState is AuthStateAuthenticated) {
+      context.go(AppRoutes.pickups);
+    } else {
+      context.go(AppRoutes.login);
+    }
   }
 
   @override
@@ -52,79 +60,47 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
-
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: const Color(0xFF1B88F0),
       body: Stack(
-        alignment: Alignment.center,
+        fit: StackFit.expand,
         children: [
-          // Ambient background glow
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.3,
-            child: Container(
-              width: 260,
-              height: 260,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    AppColors.primary.withValues(alpha: isDark ? 0.22 : 0.12),
-                    Colors.transparent,
-                  ],
+          FadeTransition(
+            opacity: _fadeAnim,
+            child: Image.asset(
+              AppAssets.welcomeScreen,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: const Color(0xFF1B88F0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppAssets.appIcon, width: 90, height: 90),
+                      const SizedBox(height: 16),
+                      Text(
+                        AppStrings.appName,
+                        style: AppTypography.h1.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          Center(
-            child: FadeTransition(
-              opacity: _fadeAnim,
-              child: ScaleTransition(
-                scale: _scaleAnim,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 96,
-                      height: 96,
-                      decoration: BoxDecoration(
-                        gradient: AppColors.primaryGradient,
-                        borderRadius: BorderRadius.circular(28),
-                        boxShadow: AppShadows.primaryGlow,
-                      ),
-                      child: const Icon(
-                        Icons.local_shipping_rounded,
-                        color: AppColors.white,
-                        size: 50,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    Text(
-                      AppStrings.appName,
-                      style: AppTypography.h1.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.8,
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      AppStrings.appTagline,
-                      style: AppTypography.bodySm.copyWith(
-                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xxl + 8),
-                    const SizedBox(
-                      width: 26,
-                      height: 26,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.6,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.2,
+                  color: Colors.white.withValues(alpha: 0.85),
                 ),
               ),
             ),

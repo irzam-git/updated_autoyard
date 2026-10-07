@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/inventory/domain/models/vehicle_model.dart';
+import 'package:autoyard/features/inventory/domain/models/vehicle_model.dart';
 
 void main() {
   group('VehicleModel Serialization & Computed Properties', () {

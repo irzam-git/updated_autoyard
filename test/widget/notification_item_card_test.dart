@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/notifications/domain/models/notification_model.dart';
-import 'package:start/features/notifications/presentation/widgets/notification_item_card.dart';
+import 'package:autoyard/features/notifications/domain/models/notification_model.dart';
+import 'package:autoyard/features/notifications/presentation/widgets/notification_item_card.dart';
 
 void main() {
   group('NotificationItemCard Widget Tests', () {

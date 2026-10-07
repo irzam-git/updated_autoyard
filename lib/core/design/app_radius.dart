@@ -13,7 +13,7 @@ abstract class AppRadius {
   static const BorderRadius cardLg = BorderRadius.all(Radius.circular(xl));
   static const BorderRadius button = BorderRadius.all(Radius.circular(md + 2));
   static const BorderRadius input = BorderRadius.all(Radius.circular(md));
-  static const BorderRadius chip = BorderRadius.all(Radius.circular(full));
+  static const BorderRadius chip = BorderRadius.all(Radius.circular(sm));
   static const BorderRadius dialog = BorderRadius.all(Radius.circular(xxl));
   static const BorderRadius sheet = BorderRadius.vertical(top: Radius.circular(xxl));
 }

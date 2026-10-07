@@ -42,7 +42,7 @@ final class VehicleWizardControllerProvider
 }
 
 String _$vehicleWizardControllerHash() =>
-    r'0a1ef779dc850aa6b56a9b2284a447e1314cd9b7';
+    r'7154ef0812152fa852d14ca6f7e254bfec92fc8a';
 
 abstract class _$VehicleWizardController extends $Notifier<VehicleWizardState> {
   VehicleWizardState build();

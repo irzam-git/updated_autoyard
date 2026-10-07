@@ -1,6 +1,6 @@
 abstract class AppStrings {
   // App
-  static const String appName = 'AutoYard Driver';
+  static const String appName = 'Autoyard';
   static const String appTagline = 'Driver & Fleet Logistics';
 
   // Auth

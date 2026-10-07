@@ -14,6 +14,7 @@ import '../../../../core/design/app_typography.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/extensions.dart';
 import '../controllers/inventory_controller.dart';
+import '../widgets/inventory_status_picker_sheet.dart';
 import '../widgets/vehicle_inventory_card.dart';
 
 class InventoryScreen extends ConsumerStatefulWidget {
@@ -40,12 +41,43 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
     final controller = ref.read(inventoryControllerProvider.notifier);
 
     final statusFilters = [
-      {'id': 'all', 'label': 'All'},
-      {'id': 'in-stock', 'label': 'In Stock'},
-      {'id': 'car-for-sell', 'label': 'For Sale'},
-      {'id': 'sold', 'label': 'Sold'},
-      {'id': 'disposed', 'label': 'Disposed'},
+      {
+        'id': 'all',
+        'label': 'All Statuses',
+        'icon': Icons.grid_view_rounded,
+        'color': AppColors.primary,
+      },
+      {
+        'id': 'in-stock',
+        'label': 'In Stock',
+        'icon': Icons.inventory_2_outlined,
+        'color': AppColors.info,
+      },
+      {
+        'id': 'car-for-sell',
+        'label': 'For Sale',
+        'icon': Icons.sell_outlined,
+        'color': AppColors.success,
+      },
+      {
+        'id': 'sold',
+        'label': 'Sold',
+        'icon': Icons.check_circle_outline_rounded,
+        'color': AppColors.primary,
+      },
+      {
+        'id': 'disposed',
+        'label': 'Disposed',
+        'icon': Icons.delete_outline_rounded,
+        'color': AppColors.textSecondaryLight,
+      },
     ];
+
+    final hasStatusFilter = state.selectedStatus.toLowerCase() != 'all';
+    final activeFilterObj = statusFilters.firstWhere(
+      (f) => (f['id'] as String).toLowerCase() == state.selectedStatus.toLowerCase(),
+      orElse: () => statusFilters.first,
+    );
 
     return Scaffold(
       backgroundColor: isDark
@@ -55,11 +87,9 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
         title: 'Vehicle Inventory',
         subtitle: 'Purchased fleet & stock',
         trailingActions: [
-          IconButton(
-            icon: Icon(
-              _showSearch ? Icons.search_off_rounded : Icons.search_rounded,
-            ),
-            onPressed: () {
+          // 1. Search toggle button
+          AppBounce(
+            onTap: () {
               setState(() {
                 _showSearch = !_showSearch;
                 if (!_showSearch) {
@@ -68,17 +98,132 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                 }
               });
             },
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: _showSearch
+                    ? AppColors.primary.withValues(alpha: 0.12)
+                    : (isDark ? AppColors.cardDark : AppColors.backgroundLight),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _showSearch
+                      ? AppColors.primary.withValues(alpha: 0.3)
+                      : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                ),
+              ),
+              child: Icon(
+                _showSearch ? Icons.search_off_rounded : Icons.search_rounded,
+                size: 19,
+                color: _showSearch
+                    ? AppColors.primary
+                    : (isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight),
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+
+          // 2. Filter on-demand trigger button
+          AppBounce(
+            onTap: () => InventoryStatusPickerSheet.show(
+              context: context,
+              currentStatus: state.selectedStatus,
+              statusFilters: statusFilters,
+              onStatusSelected: (status) => controller.changeStatus(status),
+            ),
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: hasStatusFilter
+                    ? AppColors.primary.withValues(alpha: 0.15)
+                    : (isDark ? AppColors.cardDark : AppColors.backgroundLight),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: hasStatusFilter
+                      ? AppColors.primary
+                      : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                  width: hasStatusFilter ? 1.4 : 1.0,
+                ),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    Icons.tune_rounded,
+                    size: 19,
+                    color: hasStatusFilter
+                        ? AppColors.primary
+                        : (isDark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight),
+                  ),
+                  if (hasStatusFilter)
+                    Positioned(
+                      top: 7,
+                      right: 7,
+                      child: Container(
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+
+          // 3. Add Car Action Button
+          AppBounce(
+            onTap: () => context.push(AppRoutes.createVehicle),
+            child: Container(
+              height: 38,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.32),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.add_rounded, color: AppColors.white, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Add Car',
+                    style: AppTypography.labelLg.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
       body: Column(
         children: [
-          // 1. Search Bar (if visible)
+          // 1. Search Bar (if active)
           if (_showSearch)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.xs,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.sm,
+                AppSpacing.md,
+                AppSpacing.xs,
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -104,6 +249,7 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                 ),
                 child: TextField(
                   controller: _searchController,
+                  autofocus: true,
                   style: AppTypography.bodyMd.copyWith(
                     color: isDark
                         ? AppColors.textPrimaryDark
@@ -137,82 +283,93 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
                     ),
                   ),
                   onSubmitted: (query) => controller.search(query),
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      controller.search('');
+                    }
+                  },
                 ),
               ),
             ),
 
-          const SizedBox(height: AppSpacing.xs),
-
-          // 2. Status Filter Chips
-          SizedBox(
-            height: 38,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-              itemCount: statusFilters.length,
-              separatorBuilder: (context, index) =>
-                  const SizedBox(width: AppSpacing.xs),
-              itemBuilder: (context, index) {
-                final filter = statusFilters[index];
-                final isSelected =
-                    state.selectedStatus.toLowerCase() ==
-                    filter['id']!.toLowerCase();
-
-                return AppBounce(
-                  onTap: () => controller.changeStatus(filter['id']!),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
+          // 2. Active Filter Indicator Banner (only shown when a filter is applied)
+          if (hasStatusFilter)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.xs,
+                AppSpacing.md,
+                AppSpacing.xs,
+              ),
+              child: Row(
+                children: [
+                  AppBounce(
+                    onTap: () => InventoryStatusPickerSheet.show(
+                      context: context,
+                      currentStatus: state.selectedStatus,
+                      statusFilters: statusFilters,
+                      onStatusSelected: (status) => controller.changeStatus(status),
                     ),
-                    decoration: BoxDecoration(
-                      gradient: isSelected ? AppColors.primaryGradient : null,
-                      color: isSelected
-                          ? null
-                          : (isDark
-                                ? AppColors.surfaceDark
-                                : AppColors.surfaceLight),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: isSelected
-                            ? Colors.transparent
-                            : (isDark
-                                  ? AppColors.borderDark
-                                  : AppColors.borderLight),
-                        width: 1,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
                       ),
-                      boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                offset: const Offset(0, 3),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Center(
-                      child: Text(
-                        filter['label']!,
-                        style: AppTypography.caption.copyWith(
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w600,
-                          color: isSelected
-                              ? AppColors.white
-                              : (isDark
-                                    ? AppColors.textSecondaryDark
-                                    : AppColors.textSecondaryLight),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.10),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.3),
+                          width: 1,
                         ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            (activeFilterObj['icon'] as IconData?) ??
+                                Icons.filter_list_rounded,
+                            size: 14,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Status: ${activeFilterObj['label']}',
+                            style: AppTypography.caption.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          GestureDetector(
+                            onTap: () => controller.changeStatus('all'),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              size: 15,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                );
-              },
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () => controller.changeStatus('all'),
+                    child: Text(
+                      'Clear filter',
+                      style: AppTypography.caption.copyWith(
+                        color: isDark
+                            ? AppColors.textTertiaryDark
+                            : AppColors.textTertiaryLight,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
 
           // 3. Main List
           Expanded(
@@ -232,41 +389,6 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 110, right: 4),
-        child: AppBounce(
-          onTap: () => context.push(AppRoutes.createVehicle),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-            decoration: BoxDecoration(
-              gradient: AppColors.primaryGradient,
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.45),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.add_rounded, color: AppColors.white, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  'Add Car',
-                  style: AppTypography.labelLg.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -358,7 +480,7 @@ class _InventoryScreenState extends ConsumerState<InventoryScreen> {
         AppSpacing.md,
         AppSpacing.sm,
         AppSpacing.md,
-        140,
+        100,
       ),
       itemCount: state.vehicles.length + (state.isPaginationLoading ? 1 : 0),
       itemBuilder: (context, index) {

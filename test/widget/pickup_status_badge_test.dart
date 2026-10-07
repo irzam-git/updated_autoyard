@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/pickups/presentation/widgets/pickup_status_badge.dart';
+import 'package:autoyard/features/pickups/presentation/widgets/pickup_status_badge.dart';
 
 void main() {
   Widget buildWidget(String status) {

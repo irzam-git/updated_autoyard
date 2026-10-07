@@ -407,7 +407,7 @@ class ProfileScreen extends ConsumerWidget {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: AppColors.primary.withValues(alpha: 0.3),
                             width: 1,

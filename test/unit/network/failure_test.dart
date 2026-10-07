@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/core/error/failure.dart';
+import 'package:autoyard/core/error/failure.dart';
 
 void main() {
   group('Failure.fromDioException mapping tests', () {

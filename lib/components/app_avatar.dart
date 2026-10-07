@@ -48,11 +48,25 @@ class AppAvatar extends StatelessWidget {
     if (withGradientBorder) {
       avatarContent = Container(
         padding: const EdgeInsets.all(3),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: AppColors.primaryGradient,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.25),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        child: avatarContent,
+        child: Container(
+          padding: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+          ),
+          child: ClipOval(child: avatarContent),
+        ),
       );
     }
 
@@ -100,21 +114,18 @@ class AppAvatar extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.cardDark : AppColors.primaryLight.withValues(alpha: 0.18),
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: isDark ? AppColors.borderDark : AppColors.primary.withValues(alpha: 0.2),
-          width: 1.5,
-        ),
+        gradient: AppColors.primaryGradient,
       ),
       child: Center(
         child: Text(
           (initials ?? 'U').toUpperCase(),
           style: AppTypography.labelLg.copyWith(
-            fontSize: size * 0.36,
-            fontWeight: FontWeight.w700,
-            color: isDark ? AppColors.primaryLight : AppColors.primary,
+            fontSize: size * 0.38,
+            fontWeight: FontWeight.w800,
+            color: AppColors.white,
+            letterSpacing: 0.5,
           ),
         ),
       ),

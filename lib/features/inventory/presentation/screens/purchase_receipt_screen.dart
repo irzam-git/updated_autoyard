@@ -188,7 +188,7 @@ class _PurchaseReceiptScreenState extends ConsumerState<PurchaseReceiptScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.8),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.2),

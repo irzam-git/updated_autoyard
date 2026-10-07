@@ -201,7 +201,7 @@ class VehicleDetailScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(
                   color: AppColors.success.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
                 ),
                 child: Text(

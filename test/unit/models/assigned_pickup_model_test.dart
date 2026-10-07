@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/pickups/domain/models/assigned_pickup_model.dart';
+import 'package:autoyard/features/pickups/domain/models/assigned_pickup_model.dart';
 
 void main() {
   group('AssignedPickupModel Serialization & Helpers', () {

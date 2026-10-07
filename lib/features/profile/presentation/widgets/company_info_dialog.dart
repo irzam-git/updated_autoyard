@@ -123,7 +123,7 @@ class CompanyInfoDialog extends StatelessWidget {
                   color: isSubscriptionActive
                       ? AppColors.success.withValues(alpha: 0.15)
                       : AppColors.warning.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: isSubscriptionActive
                         ? AppColors.success.withValues(alpha: 0.3)

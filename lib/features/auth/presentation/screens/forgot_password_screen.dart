@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import '../../../../components/app_bounce.dart';
 import '../../../../components/app_button.dart';
 import '../../../../components/app_snackbar.dart';
 import '../../../../components/app_text_field.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_enums.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/design/app_colors.dart';
@@ -72,39 +74,61 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final isLoading = authState is AuthStateLoading;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: Center(
-          child: AppBounce(
-            onTap: () => context.pop(),
-            child: Container(
-              width: 38,
-              height: 38,
-              margin: const EdgeInsets.only(left: AppSpacing.sm),
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.cardDark : AppColors.surfaceLight,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: isDark ? AppColors.borderDark : AppColors.borderLight,
-                ),
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 16,
-                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-              ),
+      backgroundColor: const Color(0xFF1B88F0),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Truck Backdrop
+          Image.asset(
+            AppAssets.truckPicture,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (context, error, stackTrace) => Container(
+              color: const Color(0xFF1B88F0),
             ),
           ),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-          child: _emailSent ? _buildSuccessView(isDark) : _buildFormView(isDark, isLoading),
-        ),
+          SafeArea(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+                    child: AppBounce(
+                      onTap: () => context.pop(),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 16,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                      child: _emailSent ? _buildSuccessView(isDark) : _buildFormView(isDark, isLoading),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -118,17 +142,18 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           const SizedBox(height: AppSpacing.md),
           Center(
             child: Container(
-              width: 72,
-              height: 72,
+              width: 76,
+              height: 76,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                color: Colors.black.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.5), width: 1.5),
+                boxShadow: AppShadows.primaryGlow,
               ),
               child: const Icon(
                 Icons.lock_reset_rounded,
-                color: AppColors.primary,
-                size: 38,
+                color: AppColors.primaryLight,
+                size: 40,
               ),
             ),
           ),
@@ -138,7 +163,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             textAlign: TextAlign.center,
             style: AppTypography.h2.copyWith(
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              color: AppColors.white,
             ),
           ),
           const SizedBox(height: 6),
@@ -146,42 +171,59 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             'Enter your registered email address to receive password reset instructions.',
             textAlign: TextAlign.center,
             style: AppTypography.bodySm.copyWith(
-              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+              color: Colors.white.withValues(alpha: 0.8),
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
 
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-              borderRadius: AppRadius.cardLg,
-              border: Border.all(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          ClipRRect(
+            borderRadius: AppRadius.cardLg,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? const Color(0xFF141A26).withValues(alpha: 0.82)
+                      : Colors.white.withValues(alpha: 0.94),
+                  borderRadius: AppRadius.cardLg,
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.12)
+                        : Colors.white.withValues(alpha: 0.8),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      blurRadius: 30,
+                      offset: const Offset(0, 12),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    AppTextField(
+                      label: AppStrings.email,
+                      hint: 'driver@mail.com',
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      leadingIcon: const Icon(Icons.email_outlined, size: 20),
+                      validator: AppValidators.email,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => _handleResetPassword(),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    AppButton(
+                      label: 'Send Reset Link',
+                      fullWidth: true,
+                      isLoading: isLoading,
+                      onPressed: _handleResetPassword,
+                    ),
+                  ],
+                ),
               ),
-              boxShadow: isDark ? AppShadows.darkCard : AppShadows.card,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AppTextField(
-                  label: AppStrings.email,
-                  hint: 'driver@mail.com',
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  leadingIcon: const Icon(Icons.email_outlined, size: 20),
-                  validator: AppValidators.email,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _handleResetPassword(),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                AppButton(
-                  label: 'Send Reset Link',
-                  fullWidth: true,
-                  isLoading: isLoading,
-                  onPressed: _handleResetPassword,
-                ),
-              ],
             ),
           ),
 
@@ -192,7 +234,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               child: Text(
                 'Back to Log In',
                 style: AppTypography.bodySm.copyWith(
-                  color: AppColors.primary,
+                  color: AppColors.primaryLight,
                   fontWeight: FontWeight.w700,
                 ),
               ),

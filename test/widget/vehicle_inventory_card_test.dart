@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:start/features/inventory/domain/models/vehicle_model.dart';
-import 'package:start/features/inventory/presentation/widgets/vehicle_inventory_card.dart';
+import 'package:autoyard/features/inventory/domain/models/vehicle_model.dart';
+import 'package:autoyard/features/inventory/presentation/widgets/vehicle_inventory_card.dart';
 
 void main() {
   group('VehicleInventoryCard Widget Tests', () {

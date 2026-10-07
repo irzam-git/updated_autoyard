@@ -56,12 +56,13 @@ GoRouter appRouter(Ref ref) {
           loc == AppRoutes.forgotPassword;
       final isSplashScreen = loc == AppRoutes.splash;
 
-      if (authState is AuthStateInitial) {
-        return isSplashScreen ? null : AppRoutes.splash;
+      // Keep on splash/welcome screen until it completes its timer and navigates
+      if (isSplashScreen) {
+        return null;
       }
 
       if (isAuthenticated) {
-        if (isAuthScreen || isSplashScreen) {
+        if (isAuthScreen) {
           return AppRoutes.pickups;
         }
         return null;
@@ -79,19 +80,64 @@ GoRouter appRouter(Ref ref) {
     routes: [
       GoRoute(
         path: AppRoutes.splash,
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SplashScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
       ),
       GoRoute(
         path: AppRoutes.login,
-        builder: (context, state) => const LoginScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const LoginScreen(),
+          transitionDuration: const Duration(milliseconds: 600),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
       ),
       GoRoute(
         path: AppRoutes.register,
-        builder: (context, state) => const RegisterScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const RegisterScreen(),
+          transitionDuration: const Duration(milliseconds: 400),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.06),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
+                child: child,
+              ),
+            );
+          },
+        ),
       ),
       GoRoute(
         path: AppRoutes.forgotPassword,
-        builder: (context, state) => const ForgotPasswordScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ForgotPasswordScreen(),
+          transitionDuration: const Duration(milliseconds: 400),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.06),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
+                child: child,
+              ),
+            );
+          },
+        ),
       ),
       GoRoute(
         path: AppRoutes.pickupDetail,
